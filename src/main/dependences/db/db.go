@@ -9,7 +9,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func NewDB() *sql.DB {
+func NewDB() (*sql.DB, error) {
 	err := godotenv.Load("src/resources/.dev.env")
 	if err != nil {
 		log.Fatal("env yuklanmadi:", err)
@@ -28,5 +28,5 @@ func NewDB() *sql.DB {
 	}
 
 	log.Println("DB ga ulandi ✅")
-	return db
+	return db, nil
 }
