@@ -214,4 +214,10 @@ paths:
       summary: Todo yangilash
       tags:
       - Todos
+securityDefinitions:
+  BearerAuth:
+    description: Todo Loyihasi  API
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
