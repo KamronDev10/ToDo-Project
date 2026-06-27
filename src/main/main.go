@@ -35,6 +35,18 @@ func main() {
 		api.RegisterUserRoutes(router, &handler)
 	}
 
+	// __ Todo layer ----------------------
+
+	{
+		TodoRepo := repository.NewTodoRepo(db)
+		TodoService := service.NewTodoService(TodoRepo)
+
+		handler := handler.Handler{
+			TodoService: TodoService,
+		}
+		api.RegisterTodoRoutes(router, &handler)
+	}
+
 	// ----  Server Layer
 	router.HandleFunc("/swagger/", httpSwagger.WrapHandler)
 	http.ListenAndServe(":8080", router)

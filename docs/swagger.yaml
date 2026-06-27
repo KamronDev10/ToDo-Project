@@ -1,4 +1,11 @@
 definitions:
+  dto.CreateTodoRequest:
+    properties:
+      description:
+        type: string
+      title:
+        type: string
+    type: object
   dto.SignInRequest:
     properties:
       email:
@@ -14,6 +21,30 @@ definitions:
         type: string
       username:
         type: string
+    type: object
+  dto.UpdateTodoRequest:
+    properties:
+      description:
+        type: string
+      status:
+        type: string
+      title:
+        type: string
+    type: object
+  models.Todo:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      status:
+        type: string
+      title:
+        type: string
+      user_id:
+        type: integer
     type: object
 info:
   contact: {}
@@ -78,4 +109,109 @@ paths:
       summary: Foydalanuvchi yaratish (Sign Up)
       tags:
       - Auth
+  /todos:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Todo'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: Barcha todolar
+      tags:
+      - Todos
+  /todos/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Todo ma'lumotlari
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateTodoRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Yaratildi
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Todo yaratish
+      tags:
+      - Todos
+  /todos/delete:
+    delete:
+      parameters:
+      - description: Todo ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: O'chirildi
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Todo o'chirish
+      tags:
+      - Todos
+  /todos/get:
+    get:
+      parameters:
+      - description: Todo ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Todo'
+      security:
+      - BearerAuth: []
+      summary: Bitta todo
+      tags:
+      - Todos
+  /todos/update:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Todo ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      - description: Todo ma'lumotlari
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateTodoRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Yangilandi
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Todo yangilash
+      tags:
+      - Todos
 swagger: "2.0"
